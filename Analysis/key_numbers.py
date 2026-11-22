@@ -192,7 +192,7 @@ def x1(df):
         ind = f"{e['IND']:.2f}" if "IND" in e else "n/a"
         lines.append(f"{cellname(e['cell'])} & {e['ROUTE']:.2f} & {e['EV']:.2f} & {e['RN']:.2f} & {ind} & "
                      f"{e['RA']:.2f} & ${e['ra_route'][0]:+.2f}$ [${e['ra_route'][1]:+.2f}$, ${e['ra_route'][2]:+.2f}$] & "
-                     f"{e['ratio']:.2f} & {e['ra_lower']} of {e['n']} & {e['ra_proved'][0]} of {e['ra_proved'][1]}\\\\")
+                     f"{e['ratio']:.2f} & {e['ra_lower']} of {e['n']}\\\\")
     (TAB / "x1_cells.tex").write_text("\n".join(lines) + "\n")
     lines = []
     for e in rows:
@@ -205,10 +205,9 @@ def x1(df):
     lines = []
     for p in ("ROUTE", "EV", "RN", "IND", "RA"):
         b = base[p]
-        pv = "n/a" if b["proved"] is None else f"{b['proved'][0]} of {b['proved'][1]}"
         lines.append(f"{p} & {b['p_systemic']:.2f} & {b['exp_loss']:.2f} & {b['cvar']:.2f} & "
                      f"{b['risk_obj']:.2f} & {b['in_sample']:.2f} & {b['p_clean']:.1f} & {b['eff_models']:.2f} & "
-                     f"{b['same']:.1f} & {b['n_reviews']:.1f} & {pv}\\\\")
+                     f"{b['same']:.1f} & {b['n_reviews']:.1f}\\\\")
     (TAB / "x1_base.tex").write_text("\n".join(lines) + "\n")
 
 
