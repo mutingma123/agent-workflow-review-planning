@@ -578,10 +578,12 @@ def solve_route(inst: km.Instance, env: gp.Env, threads: int = 2, use=None):
 
 
 def solve_ev(inst: km.Instance, q, env: gp.Env, opts: dict, time_limit: float = 60.0, start=None):
-    """Mean-value plan: every random event replaced by its mean. e_i is the
-    expected error level of output i, a review lowers it by dbar_i, and a
-    handoff passes it on with the mean probability of its model pair. With
-    q_same >= q_diff and dbar = 1 these are the manuscript's rows."""
+    """Fit a deterministic approximation using marginal error rates.
+
+    Each handoff transmits a fraction of its source error level. Incoming
+    contributions enter separate inequalities, so e_i approximates the
+    released error level when several handoffs can reach the same task.
+    """
     n, M = inst.n, inst.M
     q = np.asarray(q, float)
     mode = pair_mode_for(q)

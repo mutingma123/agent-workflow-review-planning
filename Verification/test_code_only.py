@@ -28,10 +28,13 @@ class Reproduction(unittest.TestCase):
     @unittest.skipUnless(MANUSCRIPT_RESULTS and MANUSCRIPT_RESULTS.is_file(), "manuscript results not in this checkout")
     def test_manuscript_plans_score_identically(self):
         rec = None
-        for line in open(MANUSCRIPT_RESULTS):
-            r = json.loads(line)
-            if r["id"] == "block=E1|qd=0.5|rep=1|rho=0.3|tau=0.15":
-                rec = r
+        with MANUSCRIPT_RESULTS.open() as records:
+            for line in records:
+                r = json.loads(line)
+                if r["id"] == "block=E1|qd=0.5|rep=1|rho=0.3|tau=0.15":
+                    rec = r
+                    break
+        self.assertIsNotNone(rec, "the pilot file must contain the E1 base setting of replication 1")
         inst = km.make_instance(8, 5, 2.0, 0.6, 0.15, seed=1)
         self.assertAlmostEqual(inst.B, rec["result"]["B"], places=9)
         test = km.sample_scenarios(inst, 20000, 0.3, 0.3, km.q_matrix(0.9, 0.5), seed=900001)

@@ -17,6 +17,19 @@ python Implementation/kp_analysis.py
 
 The plan command lists the jobs and computes the time allocation. Preflight solves small instances. Launch generates each workflow from its seed, estimates available worker capacity, and records jobs locally under `runs/`. Repeating the launch command resumes an interrupted campaign within its original deadline. Use `python Implementation/kp_campaign.py status` for progress. The analysis writes tables, figures and protocol checks from the local job records.
 
+## Reproduce the manuscript analyses
+
+After the full seven-block campaign and `kp_analysis.py` finish, run these commands from the repository root.
+
+```bash
+python Analysis/rebuild_x1.py
+python Analysis/key_numbers.py
+python Analysis/figure_data.py
+python Analysis/supplement.py
+```
+
+The first command rebuilds the X1 test scenarios from their seeds, checks the stored plans, and scores the crossed assignments and reviews. The remaining commands write the LaTeX tables, figure inputs and supplementary workbook under `Manuscript/` and `Submission/`. Each output is generated locally.
+
 ## Source
 
 | File | Purpose |
